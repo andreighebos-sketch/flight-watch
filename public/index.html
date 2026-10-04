@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flight Watch · Chișinău → Nha Trang</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232783DE' d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">✈</span>
+        <div>
+          <div class="brand-name">Flight Watch</div>
+          <div class="route-line">
+            <strong>Chișinău <span class="code">RMO</span> → Nha Trang <span class="code">CXR</span></strong>
+            <span class="muted">20 Oct — 15 Nov 2026 · One way · 2 adults · Economy · Any number of stops</span>
+          </div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="updated">
+          <span id="freshness" class="fresh-pill" title="Data freshness">—</span>
+          <span>Last updated: <strong id="last-updated">never</strong></span>
+          <span class="muted small" id="next-refresh"></span>
+        </div>
+        <button id="refresh-btn" class="btn primary" type="button">Refresh prices</button>
+        <button id="theme-btn" class="btn icon" type="button" aria-label="Toggle dark / light theme" title="Toggle theme">◐</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="mode-banner"></div>
+    <div id="notices" aria-live="polite"></div>
+    <div id="progress" class="progress hidden" aria-live="polite">
+      <div class="progress-text"><span class="spinner" aria-hidden="true"></span><span id="progress-label">Searching fares…</span></div>
+      <div class="bar"><div id="progress-fill" class="bar-fill"></div></div>
+    </div>
+
+    <section id="summary" class="summary" aria-label="Summary"></section>
+
+    <section class="grid-2">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Price by departure date</h2>
+          <span class="muted small">Cheapest total for 2 adults per day · click a day for its history</span>
+        </div>
+        <div id="date-chart" class="date-chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h2 id="history-title">Price history</h2>
+          <span class="muted small">Lowest fare per snapshot, real observations only</span>
+        </div>
+        <div id="history"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="controls" role="group" aria-label="Sort and filter">
+        <label>Sort
+          <select id="f-sort">
+            <option value="cheapest">Cheapest</option>
+            <option value="fastest">Fastest</option>
+            <option value="fewest_stops">Fewest stops</option>
+            <option value="earliest">Earliest departure</option>
+          </select>
+        </label>
+        <label>Max duration
+          <select id="f-dur">
+            <option value="any">Any</option><option value="24">24 h</option><option value="36">36 h</option><option value="48">48 h</option><option value="72">72 h</option>
+          </select>
+        </label>
+        <label>Stops
+          <select id="f-stops">
+            <option value="any">Any</option><option value="0">Direct</option><option value="1">≤1</option><option value="2">≤2</option><option value="3">≤3</option><option value="4plus">4+</option>
+          </select>
+        </label>
+        <label>Airline <select id="f-airline"><option value="any">Any</option></select></label>
+        <label>Departure date <select id="f-date"><option value="any">Any</option></select></label>
+        <label>Max total € <input id="f-price" type="number" min="1" step="1" inputmode="numeric" placeholder="Any" /></label>
+        <button id="f-reset" class="btn ghost" type="button">Reset</button>
+        <span class="spacer"></span>
+        <a id="csv-btn" class="btn ghost" href="/api/export.csv" download>Export CSV</a>
+      </div>
+      <div class="alerts-row">
+        <label>Alert me below € <input id="alert-threshold" type="number" min="1" step="1" placeholder="e.g. 900" /></label>
+        <button id="notify-btn" class="btn ghost" type="button">Enable desktop alerts</button>
+        <span id="alert-status" class="muted small"></span>
+      </div>
+      <div id="compare"></div>
+      <div id="results-meta" class="muted small results-meta"></div>
+      <div class="table-wrap">
+        <table class="results">
+          <thead>
+            <tr>
+              <th class="c-cmp" title="Compare">⇆</th>
+              <th>Date</th><th>Departure</th><th>Arrival</th><th>Duration</th><th>Stops</th><th>Route</th><th>Airlines</th>
+              <th class="num">Total · 2 adults</th><th class="num">Per person</th><th class="num">Change</th><th>Provider</th><th>Checked</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+      <div class="more-row"><button id="more-btn" class="btn ghost hidden" type="button">Show more</button></div>
+    </section>
+
+    <footer class="panel provenance" id="provenance"></footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "flight-watch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Airfare monitor: Chișinău (RMO) → Nha Trang (CXR), one-way, 2 adults, 20 Oct – 15 Nov 2026",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/server.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.3"
+  }
+}
